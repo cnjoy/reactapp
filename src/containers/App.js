@@ -8,6 +8,20 @@ import '../components/Persons/Person/Person.css';
 
 class App extends Component {
 
+  constructor(props){
+    super(props);
+    console.log('[App.js] constructor...');
+  }
+  static getDerivedStateFromProps(props,state) {
+    console.log('[App.js] getDerivedStateFromProps...', props);
+  }
+
+  componentWillMount() {
+    console.log('[App.js] componentWillMount...');
+  }
+  componentDidMount() {
+    console.log('[App.js] componentDidMount...');
+  }
   state = {
     persons: [
     {id:'id1', name: 'Max', age: 28},
@@ -20,8 +34,9 @@ class App extends Component {
  
 
   nameChangeHandler = (event, id) => {
+   
     const personIndex = this.state.persons.findIndex(p => {
-      return p.userId === id;
+      return p.id === id;
     });
 
     const person ={
@@ -31,7 +46,7 @@ class App extends Component {
     // const person = Object.assign({}, this.state.persons[personIndex]);
 
     person.name = event.target.value;
-
+   
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
@@ -53,14 +68,14 @@ class App extends Component {
 
 
   render () {
+    console.log('[App.js] rendering...');
     let persons = null;
-    let btnClass='';
-
+    
     if (this.state.showPersons) {
       persons = (
           <Persons persons={this.state.persons}
             clicked={this.deletePersonHandler}
-            changed={this.changePersonHandler}
+            changed={this.nameChangeHandler}
           />
       );
       
@@ -72,7 +87,9 @@ class App extends Component {
 
     return (
             <div className={classes.App}>
-              <Cockpit showPersons={this.state.showPersons}
+              <Cockpit 
+              title ={this.props.appTitle}
+              showPersons={this.state.showPersons}
               persons = {this.state.persons}
               clicked={this.togglePersonHandler}/>
               {persons}
