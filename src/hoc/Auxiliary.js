@@ -1,3 +1,5 @@
-const aux = props => props.children;
+import React from 'react';
 
-export default aux;
+const auxiliary = props => props.children;
+
+export default auxiliary;
